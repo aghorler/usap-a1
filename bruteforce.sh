@@ -8,7 +8,7 @@ cut='/usr/bin/cut'
 
 # The duration (in seconds) for which this script will run.
 # This can be customised.
-duration=10
+duration=120
 
 # Caluculating the end time by adding the set duration to the current time.
 endtime=$(($($date +%s) + duration))
