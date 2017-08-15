@@ -1,7 +1,6 @@
 123456
 password
 12345
-12345
 12345678
 football
 qwerty
