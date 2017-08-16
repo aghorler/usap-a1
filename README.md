@@ -51,6 +51,7 @@ Running any of the scripts with the `--debug` flag will print hash mismatches al
 All attempts of the attack will be printed to the terminal.
 
 `DEBUG (MISMATCH): john:d (18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4)`
+
 `DEBUG (MATCH): john:e (3f79bb7b435b05321651daefd374cdc681dc06faa65e374e38337b88ca046dea)`
 
 ## Plagiarism notice
