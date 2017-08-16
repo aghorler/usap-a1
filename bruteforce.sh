@@ -51,106 +51,112 @@ do
 	# (64), plus one for the colon (64 + 1 = 65). This also checks that a colon is present.
 	if [ "$(echo -n "$account" | $wc -c)" -gt 65 ] && [[ "$account" == *:* ]]; then
 
-		# Interation 1 - single letters (A).
-		for lettera in {a..z} ; do
-				# Generate a SHA256 hash for each combination.
-				hash=$(echo -n "$lettera" | $openssl dgst -sha256 | $cut -c 10-)
+		for lettera in {a..z}; do
+			hash=$(echo -n "$lettera" | $openssl dgst -sha256 | $cut -c 10-)
 
+			# Check if --debug flag is set.
+			if [[ "$*" == *--debug* ]]; then
+				# Call compare function with debug mode enabled.
+				compare "$hash" "$account" "$lettera" "true"
+			else
+				# Call compare function normally.
+				compare "$hash" "$account" "$lettera" "false"
+			fi
+
+			# Break from loop (skipping to next account) if compare function returned a success code (1).
+			if [ "$?" == 1 ]; then
+				continue 2
+			fi
+
+			# Exit script if timeout has been reached.
+			if [[ $($date +%s) > "$endtime" ]]; then
+				echo "TIMEOUT: $duration second/s reached. See line 11 of this script."
+				exit 1
+			fi
+		done
+
+		for lettera in {a..z}; do
+			for letterb in {a..z}; do
+				hash=$(echo -n "$lettera$letterb" | $openssl dgst -sha256 | $cut -c 10-)
+				
 				# Check if --debug flag is set.
 				if [[ "$*" == *--debug* ]]; then
 					# Call compare function with debug mode enabled.
-					compare "$hash" "$account" "$lettera" "true"
+					compare "$hash" "$account" "$lettera$letterb" "true"
 				else
 					# Call compare function normally.
-					compare "$hash" "$account" "$lettera" "false"
+					compare "$hash" "$account" "$lettera$letterb" "false"
 				fi
 
 				# Break from loop (skipping to next account) if compare function returned a success code (1).
 				if [ "$?" == 1 ]; then
-					break
+					continue 3
 				fi
 
 				# Exit script if timeout has been reached.
 				if [[ $($date +%s) > "$endtime" ]]; then
+					echo "TIMEOUT: $duration second/s reached. See line 11 of this script."
 					exit 1
 				fi
+			done
+		done
 
-				# Interation 2 - double letters (AB).
-				for letterb in {a..z} ; do
-					# Generate a SHA256 hash for each combination.
-					hash=$(echo -n "$lettera$letterb" | $openssl dgst -sha256 | $cut -c 10-)
-
+		for lettera in {a..z}; do
+			for letterb in {a..z}; do
+				for letterc in {a..z}; do
+					hash=$(echo -n "$lettera$letterb$letterc" | $openssl dgst -sha256 | $cut -c 10-)
+					
 					# Check if --debug flag is set.
 					if [[ "$*" == *--debug* ]]; then
 						# Call compare function with debug mode enabled.
-						compare "$hash" "$account" "$lettera$letterb" "true"
+						compare "$hash" "$account" "$lettera$letterb$letterc" "true"
 					else
 						# Call compare function normally.
-						compare "$hash" "$account" "$lettera$letterb" "false"
+						compare "$hash" "$account" "$lettera$letterb$letterc" "false"
 					fi
 
 					# Break from loop (skipping to next account) if compare function returned a success code (1).
 					if [ "$?" == 1 ]; then
-						break 2
+						continue 4
 					fi
 
 					# Exit script if timeout has been reached.
 					if [[ $($date +%s) > "$endtime" ]]; then
+						echo "TIMEOUT: $duration second/s reached. See line 11 of this script."
 						exit 1
 					fi
+				done
+			done
+		done
 
-					# Interation 3 - triple letters (ABC).
-					for letterc in {a..z} ; do
-						# Generate a SHA256 hash for each combination.
-						hash=$(echo -n "$lettera$letterb$letterc" | $openssl dgst -sha256 | $cut -c 10-)
-						compare "$hash" "$account" "$lettera$letterb$letterc"
-
+		for lettera in {a..z}; do
+			for letterb in {a..z}; do
+				for letterc in {a..z}; do
+					for letterd in {a..z}; do
+						hash=$(echo -n "$lettera$letterc$letterc$letterd" | $openssl dgst -sha256 | $cut -c 10-)
+						
 						# Check if --debug flag is set.
 						if [[ "$*" == *--debug* ]]; then
 							# Call compare function with debug mode enabled.
-							compare "$hash" "$account" "$lettera$letterb$letterc" "true"
+							compare "$hash" "$account" "$lettera$letterb$letterc$letterd" "true"
 						else
 							# Call compare function normally.
-							compare "$hash" "$account" "$lettera$letterb$letterc" "false"
+							compare "$hash" "$account" "$lettera$letterb$letterc$letterd" "false"
 						fi
 
 						# Break from loop (skipping to next account) if compare function returned a success code (1).
 						if [ "$?" == 1 ]; then
-							break 3
+							continue 5
 						fi
 
 						# Exit script if timeout has been reached.
 						if [[ $($date +%s) > "$endtime" ]]; then
+							echo "TIMEOUT: $duration second/s reached. See line 11 of this script."
 							exit 1
 						fi
-
-						# Interation 4 - quadruple letters (ABCD).
-						for letterd in {a..z} ; do
-							# Generate a SHA256 hash for each combination.
-							hash=$(echo -n "$lettera$letterb$letterc$letterd" | $openssl dgst -sha256 | $cut -c 10-)
-							compare "$hash" "$account" "$lettera$letterb$letterc$letterd"
-
-							# Check if --debug flag is set.
-							if [[ "$*" == *--debug* ]]; then
-								# Call compare function with debug mode enabled.
-								compare "$hash" "$account" "$lettera$letterb$letterc$letterd" "true"
-							else
-								# Call compare function normally.
-								compare "$hash" "$account" "$lettera$letterb$letterc$letterd" "false"
-							fi
-
-							# Break from loop (skipping to next account) if compare function returned a success code (1).
-							if [ "$?" == 1 ]; then
-								break 4
-							fi
-
-							# Exit script if timeout has been reached.
-							if [[ $($date +%s) > "$endtime" ]]; then
-								exit 1
-							fi
-						done
 					done
 				done
+			done
 		done
 	else
 		# Print error indicating that the format of a specific line in
