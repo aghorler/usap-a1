@@ -28,6 +28,8 @@ function compare {
 		# Debug mode prints both matches and mismatches.
 		if [ "${faccount#*:}" ==  "$fhash" ]; then
 			echo "DEBUG (MATCH): ${faccount%:*}:$fattempt ($fhash)"
+
+			# Return a success code (1) if a match was found.
 			return 1
 		else
 			echo "DEBUG (MISMATCH): ${faccount%:*}:$fattempt ($fhash)"
@@ -51,6 +53,7 @@ do
 	# (64), plus one for the colon (64 + 1 = 65). This also checks that a colon is present.
 	if [ "$(echo -n "$account" | $wc -c)" -gt 65 ] && [[ "$account" == *:* ]]; then
 
+		# Iteration 1 (A-Z).
 		for lettera in {a..z}; do
 			hash=$(echo -n "$lettera" | $openssl dgst -sha256 | $cut -c 10-)
 
@@ -63,7 +66,7 @@ do
 				compare "$hash" "$account" "$lettera" "false"
 			fi
 
-			# Break from loop (skipping to next account) if compare function returned a success code (1).
+			# Continue accounts loop (skipping to next account) if compare function returned a success code (1).
 			if [ "$?" == 1 ]; then
 				continue 2
 			fi
@@ -75,6 +78,7 @@ do
 			fi
 		done
 
+		# Iteration 2 (AA-ZZ).
 		for lettera in {a..z}; do
 			for letterb in {a..z}; do
 				hash=$(echo -n "$lettera$letterb" | $openssl dgst -sha256 | $cut -c 10-)
@@ -88,7 +92,7 @@ do
 					compare "$hash" "$account" "$lettera$letterb" "false"
 				fi
 
-				# Break from loop (skipping to next account) if compare function returned a success code (1).
+				# Continue accounts loop (skipping to next account) if compare function returned a success code (1).
 				if [ "$?" == 1 ]; then
 					continue 3
 				fi
@@ -101,6 +105,7 @@ do
 			done
 		done
 
+		# Iteration 3 (AAA-ZZZ).
 		for lettera in {a..z}; do
 			for letterb in {a..z}; do
 				for letterc in {a..z}; do
@@ -115,7 +120,7 @@ do
 						compare "$hash" "$account" "$lettera$letterb$letterc" "false"
 					fi
 
-					# Break from loop (skipping to next account) if compare function returned a success code (1).
+					# Continue accounts loop (skipping to next account) if compare function returned a success code (1).
 					if [ "$?" == 1 ]; then
 						continue 4
 					fi
@@ -129,6 +134,7 @@ do
 			done
 		done
 
+		# Iteration 4 (AAAA-ZZZZ).
 		for lettera in {a..z}; do
 			for letterb in {a..z}; do
 				for letterc in {a..z}; do
@@ -144,7 +150,7 @@ do
 							compare "$hash" "$account" "$lettera$letterb$letterc$letterd" "false"
 						fi
 
-						# Break from loop (skipping to next account) if compare function returned a success code (1).
+						# Continue accounts loop (skipping to next account) if compare function returned a success code (1).
 						if [ "$?" == 1 ]; then
 							continue 5
 						fi
