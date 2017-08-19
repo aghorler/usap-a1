@@ -1,7 +1,8 @@
 #! /bin/bash
 
 # Linux dictionary path.
-dictionary='/usr/share/dict/words'
+dictionary='/home/el5/E20925/linux.words'
+# dictionary='/usr/share/dict/words'
 
 # Binary paths.
 wc='/usr/bin/wc'
