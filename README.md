@@ -32,9 +32,9 @@ These scripts require `openssl`, `bash`, `cat`, `cut`, and `wc`.
 
 This repository contains three bash scripts. `guess.sh`, `dictionary.sh`, and `bruteforce.sh`.
 
-`./guess.sh < resources/accounts.txt` will run a guessing attack using a [list of commonly used passwords](/resources/common.txt).
+`./guess.sh < resources/accounts.txt` will run a guessing attack using a [list of commonly used passwords](/resources/common.txt), and the username.
 
-`./dictionary.sh < resources/accounts.txt` will run a dictionary attack using the Linux dictionary.
+`./dictionary.sh < resources/accounts.txt` will run a dictionary attack using the a [prepackaged hash dictionary](/resources/dictionary.txt).
 
 `./bruteforce.sh < resources/accounts.txt` will run a (trival) bruteforce attack using the lowercase English alphabet (1 - 4 characters) with a default timeout of 120 seconds.
 
