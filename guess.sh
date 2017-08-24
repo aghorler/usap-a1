@@ -24,6 +24,15 @@ if [ -s "$common" ]; then
 		# (64), plus one for the colon (64 + 1 = 65). This also checks that a colon is present.
 		if [ "$(echo -n "$account" | $wc -c)" -gt 65 ] && [[ "$account" == *:* ]]; then
 
+			# Generate SHA256 hash of username.
+			hash=$(echo -n ${account%:*} | $openssl dgst -sha256 | $cut -c 10-)
+
+			# Check if hashed password is equal to hashed username.
+			if [ "${account#*:}" ==  "$hash" ]; then
+				echo "${account%:*}:${account%:*}"
+				continue
+			fi
+
 			# Read prepackaged passwords list.
 			$cat $common | while read -r attempt
 			do
