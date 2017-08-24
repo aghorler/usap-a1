@@ -6,8 +6,6 @@ dictionary='./resources/dictionary.txt'
 # Binary paths.
 wc='/usr/bin/wc'
 cat='/bin/cat'
-openssl='/usr/bin/openssl'
-cut='/usr/bin/cut'
 
 # Check that the dictionary specified both exists, and is not empty.
 if [ -s "$dictionary" ]; then
