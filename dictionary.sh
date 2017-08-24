@@ -1,8 +1,7 @@
 #! /bin/bash
 
-# Linux dictionary path.
-dictionary='/home/el5/E20925/linux.words'
-# dictionary='/usr/share/dict/words'
+# Pre-computed hash dictionary path.
+dictionary='./resources/dictionary.txt'
 
 # Binary paths.
 wc='/usr/bin/wc'
@@ -27,21 +26,21 @@ if [ -s "$dictionary" ]; then
 			$cat $dictionary | while read -r attempt
 			do
 				# Generate a SHA256 hash for each word in the dictionary.
-				hash=$(echo -n "$attempt" | $openssl dgst -sha256 | $cut -c 10-)
+				hash=${attempt#*:}
 
 				# Check if --debug flag is set.
 				if [[ "$*" == *--debug* ]]; then
 					# Debug mode prints both matches and mismatches.
 					if [ "${account#*:}" ==  "$hash" ]; then
-						echo "DEBUG (MATCH): ${account%:*}:$attempt ($hash)"
+						echo "DEBUG (MATCH): ${account%:*}:${attempt%:*} ($hash)"
 						break
 					else
-						echo "DEBUG (MISMATCH): ${account%:*}:$attempt ($hash)"
+						echo "DEBUG (MISMATCH): ${account%:*}:${attempt%:*} ($hash)"
 					fi
 				else
 					# Check if the generated hash matches the hash in the inputted accounts file.
 					if [ "${account#*:}" ==  "$hash" ]; then
-						echo "${account%:*}:$attempt"
+						echo "${account%:*}:${attempt%:*}"
 						break
 					fi
 				fi
