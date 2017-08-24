@@ -25,9 +25,10 @@ if [ -s "$common" ]; then
 		if [ "$(echo -n "$account" | $wc -c)" -gt 65 ] && [[ "$account" == *:* ]]; then
 
 			# Generate SHA256 hash of username.
-			hash=$(echo -n ${account%:*} | $openssl dgst -sha256 | $cut -c 10-)
+			hash=$(echo -n "${account%:*}" | $openssl dgst -sha256 | $cut -c 10-)
 
 			# Check if hashed password is equal to hashed username.
+			# Debug mode does not apply to this check.
 			if [ "${account#*:}" ==  "$hash" ]; then
 				echo "${account%:*}:${account%:*}"
 				continue
