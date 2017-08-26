@@ -38,7 +38,7 @@ This repository contains three main bash scripts. `guess.sh`, `dictionary.sh`, a
 
 `./bruteforce.sh < resources/accounts.txt` will run a (trival) bruteforce attack using the [lowercase English alphabet](/resources/bruteforce_hashes.txt) (1 - 4 characters) with a default timeout of 120 seconds.
 
-The script also inclues `bruteforce-manual.sh`. This script will manually attempt a bruteforce attack (generating a SHA256 each iteration), and should not generally be run due to excessive running time.
+The script also inclues `bruteforce-manual.sh`. This script will manually attempt a bruteforce attack (generating a SHA256 hash each iteration), and should not generally be run due to excessive running time.
 
 Any results will be printed to the terminal.
 
