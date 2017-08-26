@@ -17,7 +17,7 @@ endtime=$(($($date +%s) + duration))
 
 # Check that the bruteforce hash file specified both exists, and is not empty.
 if [ -s "$hashes" ]; then
-	echo "Attempting bruteforce attack... This will timeout after $duration second/s."
+	echo "Attempting bruteforce attack... This will timeout after $duration second/s, but should complete sooner."
 	echo ""
 
 	# Read inputted accounts file.
@@ -50,17 +50,18 @@ if [ -s "$hashes" ]; then
 						break
 					fi
 				fi
-
-				# Exit script if timeout has been reached.
-				if [[ $($date +%s) > "$endtime" ]]; then
-					echo "TIMEOUT: $duration second/s reached. See line 13 of this script."
-					exit 1
-				fi
 			done
 		else
 			# Print error indicating that the format of a specific line in
 			# the inputted accounts file in invalid.
 			echo "Invalid format: $account. Please read the instructions."
+		fi
+
+		# Exit script if timeout has been exceeded in previous account interation.
+		# Including this check inside of the hash loop increases running time significantly.
+		if [[ $($date +%s) > "$endtime" ]]; then
+			echo "TIMEOUT: $duration second/s reached. See line 13 of this script."
+			exit 1
 		fi
 	done
 else
