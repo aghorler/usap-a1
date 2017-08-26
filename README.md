@@ -16,13 +16,13 @@ SHA256 password cracking via a guessing attack, a dictionary attack, and a (triv
 
 These scripts require a list of accounts in the format of `username` colon (`:`) SHA256 `hash` on each line.
 
-#### Example accounts.txt
+#### Example single-line accounts.txt
 
 `ada:fb1e7ec987523d2cb9e022cec1d6ae7c99dc46edfae4fe51254025fe4bea571f`
 
 #### Binary dependencies
 
-These scripts require `openssl`, `bash`, `cat`, `cut`, and `wc`.
+These scripts require `openssl`, `bash`, `cat`, `cut`, `date`, and `wc`.
 
 ## Using the scripts
 
@@ -30,13 +30,15 @@ These scripts require `openssl`, `bash`, `cat`, `cut`, and `wc`.
 
 `chmod -R 755 usap-a1`
 
-This repository contains three bash scripts. `guess.sh`, `dictionary.sh`, and `bruteforce.sh`.
+This repository contains three main bash scripts. `guess.sh`, `dictionary.sh`, and `bruteforce.sh`.
 
 `./guess.sh < resources/accounts.txt` will run a guessing attack using a [list of commonly used passwords](/resources/common.txt), and the username.
 
-`./dictionary.sh < resources/accounts.txt` will run a dictionary attack using the a [prepackaged hash dictionary](/resources/dictionary.txt).
+`./dictionary.sh < resources/accounts.txt` will run a dictionary attack using the a [prepackaged hash dictionary](/resources/dictionary_hashes.txt).
 
-`./bruteforce.sh < resources/accounts.txt` will run a (trival) bruteforce attack using the lowercase English alphabet (1 - 4 characters) with a default timeout of 120 seconds.
+`./bruteforce.sh < resources/accounts.txt` will run a (trival) bruteforce attack using the [lowercase English alphabet](/resources/bruteforce_hashes.txt) (1 - 4 characters) with a default timeout of 120 seconds.
+
+The script also inclues `bruteforce-manual.sh`. This script will manually attempt a bruteforce attack (generating a SHA256 each iteration), and should not generally be run due to excessive running time.
 
 Any results will be printed to the terminal.
 
