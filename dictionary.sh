@@ -9,7 +9,7 @@ cat='/bin/cat'
 
 # Check that the dictionary specified both exists, and is not empty.
 if [ -s "$dictionary" ]; then
-	echo "Attempting dictionary attack. This WILL take a while..."
+	echo "Attempting dictionary attack..."
 	echo ""
 
 	# Read inputted accounts file.

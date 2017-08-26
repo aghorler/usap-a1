@@ -13,7 +13,7 @@ duration=120
 # Caluculating the end time by adding the set duration to the current time.
 endtime=$(($($date +%s) + duration))
 
-echo "Attempting bruteforce attack. This will timeout after $duration second/s."
+echo "Attempting bruteforce attack... This will timeout after $duration second/s."
 echo ""
 
 # Function to compare SHA256 hashes.

@@ -13,7 +13,7 @@ cut='/usr/bin/cut'
 
 # Check that prepackaged passwords list both exists, and is not empty.
 if [ -s "$common" ]; then
-	echo "Attempting a simple guessing attack."
+	echo "Attempting a simple guessing attack..."
 	echo ""
 
 	# Read inputted accounts file.
