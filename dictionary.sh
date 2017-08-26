@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Pre-computed hash dictionary path.
-dictionary='./resources/dictionary.txt'
+dictionary='./resources/dictionary_hashes.txt'
 
 # Binary paths.
 wc='/usr/bin/wc'
