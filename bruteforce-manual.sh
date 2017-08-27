@@ -139,7 +139,7 @@ do
 			for letterb in {a..z}; do
 				for letterc in {a..z}; do
 					for letterd in {a..z}; do
-						hash=$(echo -n "$lettera$letterc$letterc$letterd" | $openssl dgst -sha256 | $cut -c 10-)
+						hash=$(echo -n "$lettera$letterb$letterc$letterd" | $openssl dgst -sha256 | $cut -c 10-)
 						
 						# Check if --debug flag is set.
 						if [[ "$*" == *--debug* ]]; then
